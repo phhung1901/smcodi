@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\GoogleOneTapController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -33,6 +34,11 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
+
+    // Google One Tap routes
+    Route::post('auth/google/one-tap/callback', [GoogleOneTapController::class, 'callback'])
+        ->middleware('throttle:10,1')
+        ->name('auth.google.one-tap.callback');
 });
 
 Route::middleware('auth')->group(function () {

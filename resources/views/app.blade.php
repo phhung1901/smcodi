@@ -40,9 +40,12 @@
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
         @vite(['resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
+        {{--    Google one tap    --}}
+        <script src="https://accounts.google.com/gsi/client" async="" defer=""></script>
         @inertiaHead
     </head>
     <body class="font-sans antialiased">
         @inertia
+        <x-google_one_tap.onload/>
     </body>
 </html>
