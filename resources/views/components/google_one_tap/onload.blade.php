@@ -12,10 +12,11 @@
     }
 @endphp
 
-
+@guest
 <div id="g_id_onload"
      data-auto_prompt="{{config('google-one-tap.enable')}}"
      data-client_id="{{config('google-one-tap.client_id')}}"
      data-login_uri="{{config('google-one-tap.call_back')}}"
      {!! $attributesText !!}>
 </div>
+@endguest
