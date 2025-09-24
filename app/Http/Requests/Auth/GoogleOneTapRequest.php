@@ -25,7 +25,6 @@ class GoogleOneTapRequest extends FormRequest
     {
         return [
             'credential' => 'required|string',
-            '_token' => 'required|string',
         ];
     }
 
@@ -37,8 +36,6 @@ class GoogleOneTapRequest extends FormRequest
         return [
             'credential.required' => 'Google credential is required.',
             'credential.string' => 'Google credential must be a valid string.',
-            '_token.required' => 'CSRF token is required.',
-            '_token.string' => 'CSRF token must be a valid string.',
         ];
     }
 

@@ -3,7 +3,6 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-{{--        <meta name="referrer" content="strict-origin-when-cross-origin">--}}
         <meta name="referrer" content="no-referrer-when-downgrade">
 
         {{-- Inline script to detect system dark mode preference and apply it immediately --}}
@@ -44,6 +43,7 @@
         @vite(['resources/js/app.ts', "resources/js/pages/{$page['component']}.vue"])
         {{--    Google one tap    --}}
         <script src="https://accounts.google.com/gsi/client" async="" defer=""></script>
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         @inertiaHead
     </head>
     <body class="font-sans antialiased">

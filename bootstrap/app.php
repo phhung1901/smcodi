@@ -21,6 +21,11 @@ return Application::configure(basePath: dirname(__DIR__))
             HandleInertiaRequests::class,
             AddLinkHeadersForPreloadedAssets::class,
         ]);
+
+        // Exclude CSRF verification for Google One Tap callback
+        $middleware->validateCsrfTokens(except: [
+            'auth/google/one-tap/callback',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

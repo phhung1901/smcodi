@@ -37,7 +37,7 @@ Route::middleware('guest')->group(function () {
 
     // Google One Tap routes
     Route::post('auth/google/one-tap/callback', [GoogleOneTapController::class, 'callback'])
-        ->middleware('throttle:10,1')
+        ->middleware(['web', 'throttle:10,1'])
         ->name('auth.google.one-tap.callback');
 });
 
