@@ -46,7 +46,5 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'custom' => [
-        'use_fedcm_for_prompt' => env('GOOGLE_USE_FEDCM', false),
-    ]
+    'custom' => []
 ];

@@ -17,7 +17,6 @@
      data-auto_prompt="{{config('google-one-tap.enable')}}"
      data-client_id="{{config('google-one-tap.client_id')}}"
      data-login_uri="{{config('google-one-tap.call_back')}}"
-     data-use_fedcm_for_prompt="false"
      data-_token="{{ csrf_token() }}"
      {!! $attributesText !!}>
 </div>
