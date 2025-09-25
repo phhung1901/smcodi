@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import SMCodiLogo from '@/components/SMCodiLogo.vue';
 import { home } from '@/routes';
 import { Link } from '@inertiajs/vue3';
 
@@ -21,10 +21,11 @@ defineProps<{
                         class="flex flex-col items-center gap-2 font-medium"
                     >
                         <div
-                            class="mb-1 flex h-9 w-9 items-center justify-center rounded-md"
+                            class="mb-1 flex h-16 w-auto items-center justify-center"
                         >
-                            <AppLogoIcon
-                                class="size-9 fill-current text-[var(--foreground)] dark:text-white"
+                            <SMCodiLogo
+                                class="h-16 w-auto object-contain"
+                                variant="auto"
                             />
                         </div>
                         <span class="sr-only">{{ title }}</span>

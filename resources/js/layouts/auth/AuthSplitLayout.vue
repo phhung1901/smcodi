@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import SMCodiLogo from '@/components/SMCodiLogo.vue';
 import { home } from '@/routes';
 import { Link, usePage } from '@inertiajs/vue3';
 
@@ -25,7 +25,7 @@ defineProps<{
                 :href="home()"
                 class="relative z-20 flex items-center text-lg font-medium"
             >
-                <AppLogoIcon class="mr-2 size-8 fill-current text-white" />
+                <SMCodiLogo class="mr-2 h-8 w-auto object-contain" variant="white" />
                 {{ name }}
             </Link>
             <div v-if="quote" class="relative z-20 mt-auto">

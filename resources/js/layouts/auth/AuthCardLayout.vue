@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import SMCodiLogo from '@/components/SMCodiLogo.vue';
 import {
     Card,
     CardContent,
@@ -25,9 +25,10 @@ defineProps<{
                 :href="home()"
                 class="flex items-center gap-2 self-center font-medium"
             >
-                <div class="flex h-9 w-9 items-center justify-center">
-                    <AppLogoIcon
-                        class="size-9 fill-current text-black dark:text-white"
+                <div class="flex h-16 w-auto items-center justify-center">
+                    <SMCodiLogo
+                        class="h-16 w-auto object-contain"
+                        variant="auto"
                     />
                 </div>
             </Link>
