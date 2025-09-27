@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import CreatePostModal from './CreatePostModal.vue';
 
 // Props để điều khiển trạng thái active của navigation
 interface Props {
@@ -14,8 +15,28 @@ const props = withDefaults(defineProps<Props>(), {
 // Mobile menu state
 const isMobileMenuOpen = ref(false);
 
+// Modal state
+const isModalOpen = ref(false);
+
 const toggleMobileMenu = () => {
     isMobileMenuOpen.value = !isMobileMenuOpen.value;
+};
+
+const openModal = () => {
+    isModalOpen.value = true;
+    // Đóng mobile menu nếu đang mở
+    isMobileMenuOpen.value = false;
+};
+
+const closeModal = () => {
+    isModalOpen.value = false;
+};
+
+const handleSubmit = (data: any) => {
+    console.log('Post data from Navigation:', data);
+    // TODO: Xử lý submit data ở đây
+    closeModal();
+    // Có thể emit event hoặc call API
 };
 </script>
 
@@ -67,7 +88,10 @@ const toggleMobileMenu = () => {
                 </Link>
 
                 <!-- Post Button -->
-                <button class="bg-black dark:bg-white text-white dark:text-black border-none px-3.5 py-1.5 rounded-md text-[13px] cursor-pointer transition-all duration-200 font-medium hover:opacity-80">
+                <button
+                    @click="openModal"
+                    class="bg-black dark:bg-white text-white dark:text-black border-none px-3.5 py-1.5 rounded-md text-[13px] cursor-pointer transition-all duration-200 font-medium hover:opacity-80"
+                >
                     Đăng bài
                 </button>
             </div>
@@ -75,7 +99,10 @@ const toggleMobileMenu = () => {
             <!-- Mobile Menu -->
             <div class="md:hidden flex items-center gap-3">
                 <!-- Post Button Mobile -->
-                <button class="bg-black dark:bg-white text-white dark:text-black border-none px-3 py-1.5 rounded-md text-[13px] cursor-pointer transition-all duration-200 font-medium hover:opacity-80">
+                <button
+                    @click="openModal"
+                    class="bg-black dark:bg-white text-white dark:text-black border-none px-3 py-1.5 rounded-md text-[13px] cursor-pointer transition-all duration-200 font-medium hover:opacity-80"
+                >
                     Đăng bài
                 </button>
 
@@ -140,6 +167,13 @@ const toggleMobileMenu = () => {
             </div>
         </div>
     </nav>
+
+    <!-- Create Post Modal -->
+    <CreatePostModal
+        :is-open="isModalOpen"
+        @close="closeModal"
+        @submit="handleSubmit"
+    />
 </template>
 
 
