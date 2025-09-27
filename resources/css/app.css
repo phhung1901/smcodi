@@ -166,7 +166,54 @@
     * {
         @apply border-border outline-ring/50;
     }
+    html, body {
+        height: 100vh;
+        overflow: hidden;
+    }
     body {
         @apply bg-background text-foreground;
+        font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* CodeCraft specific CSS variables */
+:root {
+    /* CodeCraft color system */
+    --cc-black: #000000;
+    --cc-white: #ffffff;
+    --cc-gray-50: #fafafa;
+    --cc-gray-100: #f5f5f5;
+    --cc-gray-200: #e5e5e5;
+    --cc-gray-300: #d4d4d4;
+    --cc-gray-400: #a3a3a3;
+    --cc-gray-500: #737373;
+    --cc-gray-600: #525252;
+    --cc-gray-700: #404040;
+    --cc-gray-800: #262626;
+    --cc-gray-900: #171717;
+    --cc-border: rgba(0, 0, 0, 0.08);
+    --cc-radius: 12px;
+    --cc-transition: all 0.2s ease;
+}
+
+/* Dark mode support for CodeCraft */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --cc-white: #000000;
+        --cc-black: #ffffff;
+        --cc-gray-50: #0a0a0a;
+        --cc-gray-100: #171717;
+        --cc-gray-200: #262626;
+        --cc-gray-300: #404040;
+        --cc-gray-400: #737373;
+        --cc-gray-500: #a3a3a3;
+        --cc-gray-600: #d4d4d4;
+        --cc-gray-700: #e5e5e5;
+        --cc-gray-800: #f5f5f5;
+        --cc-gray-900: #fafafa;
+        --cc-border: rgba(255, 255, 255, 0.1);
     }
 }

@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraft - Learn from Better Code</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-200: #e5e5e5;
+            --gray-300: #d4d4d4;
+            --gray-400: #a3a3a3;
+            --gray-500: #737373;
+            --gray-600: #525252;
+            --gray-700: #404040;
+            --gray-800: #262626;
+            --gray-900: #171717;
+            --border: rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, sans-serif;
+            background: var(--white);
+            color: var(--black);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.72);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-container {
+            max-width: 980px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--black);
+            letter-spacing: -0.5px;
+            cursor: pointer;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 14px;
+            transition: var(--transition);
+            font-weight: 400;
+        }
+
+        .nav-link:hover {
+            color: var(--black);
+        }
+
+        .nav-link.active {
+            color: var(--black);
+        }
+
+        .post-btn {
+            background: var(--black);
+            color: var(--white);
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+        }
+
+        .post-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 680px;
+            margin: 48px auto 0;
+            padding: 20px;
+        }
+
+        /* Post Creator */
+        .post-creator {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .creator-header {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .creator-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--gray-600);
+        }
+
+        .creator-input {
+            flex: 1;
+            background: var(--gray-50);
+            border: 1px solid transparent;
+            border-radius: 24px;
+            padding: 10px 16px;
+            font-size: 14px;
+            color: var(--gray-500);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .creator-input:hover {
+            background: var(--gray-100);
+            border-color: var(--border);
+        }
+
+        /* Search Bar */
+        .search-container {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 14px;
+            background: var(--white);
+            transition: var(--transition);
+        }
+
+        .search-bar:focus {
+            outline: none;
+            border-color: var(--gray-400);
+            box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.04);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+        }
+
+        /* Post Card */
+        .post-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            transition: var(--transition);
+        }
+
+        .post-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .post-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .post-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .author-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            font-size: 12px;
+            color: var(--gray-600);
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 500;
+            color: var(--black);
+            font-size: 14px;
+            line-height: 1.2;
+        }
+
+        .post-time {
+            color: var(--gray-500);
+            font-size: 12px;
+        }
+
+        .post-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 6px;
+        }
+
+        .post-description {
+            color: var(--gray-600);
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        /* Code Comparison */
+        .code-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: var(--border);
+        }
+
+        .code-panel {
+            background: var(--white);
+            position: relative;
+        }
+
+        .code-label {
+            position: absolute;
+            top: 12px;
+            left: 16px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            z-index: 10;
+        }
+
+        .code-label.bad {
+            background: var(--black);
+            color: var(--white);
+            opacity: 0.8;
+        }
+
+        .code-label.good {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        /* Code Block with Line Numbers */
+        .code-content {
+            padding: 44px 0 16px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            background: #1a1a1a;
+            overflow-x: auto;
+        }
+
+        .code-block {
+            display: table;
+            width: 100%;
+        }
+
+        .line-numbers {
+            display: table-cell;
+            width: 1px;
+            padding: 0 16px;
+            text-align: right;
+            user-select: none;
+            opacity: 0.3;
+            color: #e5e5e5;
+            vertical-align: top;
+        }
+
+        .line-number {
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        .code-lines {
+            display: table-cell;
+            padding: 0 16px 0 8px;
+            color: #e5e5e5;
+        }
+
+        .code-line {
+            line-height: 1.6;
+        }
+
+        /* Syntax Highlighting */
+        .keyword { color: #c678dd; }
+        .function { color: #61afef; }
+        .string { color: #98c379; }
+        .comment { color: #5c6370; font-style: italic; }
+        .variable { color: #e06c75; }
+        .operator { color: #56b6c2; }
+        .number { color: #d19a66; }
+        .class-name { color: #e5c07b; }
+        .punctuation { color: #abb2bf; }
+        .property { color: #d19a66; }
+        .method { color: #61afef; }
+
+        /* Post Actions */
+        .post-actions {
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .action-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            color: var(--gray-500);
+            font-size: 13px;
+        }
+
+        .action-btn:hover {
+            background: var(--gray-50);
+            color: var(--black);
+        }
+
+        .action-btn.active {
+            color: var(--black);
+            font-weight: 500;
+        }
+
+        .vote-count {
+            font-weight: 500;
+            color: var(--black);
+            font-size: 13px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .code-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-menu {
+                gap: 20px;
+            }
+
+            .nav-link:not(.active) {
+                display: none;
+            }
+        }
+
+        /* Dark Mode Support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --white: #000000;
+                --black: #ffffff;
+                --gray-50: #0a0a0a;
+                --gray-100: #171717;
+                --gray-200: #262626;
+                --gray-300: #404040;
+                --gray-400: #737373;
+                --gray-500: #a3a3a3;
+                --gray-600: #d4d4d4;
+                --gray-700: #e5e5e5;
+                --gray-800: #f5f5f5;
+                --gray-900: #fafafa;
+                --border: rgba(255, 255, 255, 0.1);
+            }
+
+            nav {
+                background: rgba(0, 0, 0, 0.72);
+            }
+
+            .code-content {
+                background: #0a0a0a;
+            }
+        }
+    </style>
+</head>
+<body>
+<!-- Navigation -->
+<nav>
+    <div class="nav-container">
+        <div class="logo">CodeCraft</div>
+        <div class="nav-menu">
+            <a href="#" class="nav-link active">Trang chủ</a>
+            <a href="#" class="nav-link">Khám phá</a>
+            <a href="#" class="nav-link">Thảo luận</a>
+            <button class="post-btn">Đăng bài</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="container">
+    <!-- Post Creator -->
+    <div class="post-creator">
+        <div class="creator-header">
+            <div class="creator-avatar">You</div>
+            <div class="creator-input">Chia sẻ code của bạn...</div>
+        </div>
+    </div>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+        <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input type="text" class="search-bar" placeholder="Tìm kiếm code, bài viết, tác giả...">
+    </div>
+
+    <!-- Post 1 -->
+    <div class="post-card">
+        <div class="post-header">
+            <div class="post-author">
+                <div class="author-avatar">TH</div>
+                <div class="author-info">
+                    <div class="author-name">Trần Hoàng</div>
+                    <div class="post-time">2 giờ trước</div>
+                </div>
+            </div>
+            <h3 class="post-title">Tối ưu vòng lặp trong JavaScript</h3>
+            <p class="post-description">Cách tránh vòng lặp lồng nhau không cần thiết khi xử lý mảng</p>
+        </div>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <span class="code-label bad">Bad Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                            <div class="line-number">8</div>
+                            <div class="line-number">9</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="comment">// Tìm users có order</span></div>
+                            <div class="code-line"><span class="keyword">let</span> <span class="variable">usersWithOrders</span> <span class="operator">=</span> <span class="punctuation">[];</span></div>
+                            <div class="code-line"><span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword">let</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">0</span><span class="punctuation">;</span> <span class="variable">i</span> <span class="operator">&lt;</span> <span class="variable">users</span><span class="punctuation">.</span><span class="property">length</span><span class="punctuation">;</span> <span class="variable">i</span><span class="operator">++</span><span class="punctuation">)</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="keyword">for</span> <span class="punctuation">(</span><span class="keyword">let</span> <span class="variable">j</span> <span class="operator">=</span> <span class="number">0</span><span class="punctuation">;</span> <span class="variable">j</span> <span class="operator">&lt;</span> <span class="variable">orders</span><span class="punctuation">.</span><span class="property">length</span><span class="punctuation">;</span> <span class="variable">j</span><span class="operator">++</span><span class="punctuation">)</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="keyword">if</span> <span class="punctuation">(</span><span class="variable">users</span><span class="punctuation">[</span><span class="variable">i</span><span class="punctuation">].</span><span class="property">id</span> <span class="operator">===</span> <span class="variable">orders</span><span class="punctuation">[</span><span class="variable">j</span><span class="punctuation">].</span><span class="property">userId</span><span class="punctuation">)</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">            <span class="variable">usersWithOrders</span><span class="punctuation">.</span><span class="method">push</span><span class="punctuation">(</span><span class="variable">users</span><span class="punctuation">[</span><span class="variable">i</span><span class="punctuation">]);</span></div>
+                            <div class="code-line">            <span class="keyword">break</span><span class="punctuation">;</span></div>
+                            <div class="code-line">        <span class="punctuation">}</span></div>
+                            <div class="code-line">    <span class="punctuation">}</span></div>
+                            <div class="code-line"><span class="punctuation">}</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-panel">
+                <span class="code-label good">Good Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="comment">// Sử dụng Set để tối ưu performance</span></div>
+                            <div class="code-line"><span class="keyword">const</span> <span class="variable">userIdsWithOrders</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="class-name">Set</span><span class="punctuation">(</span></div>
+                            <div class="code-line">    <span class="variable">orders</span><span class="punctuation">.</span><span class="method">map</span><span class="punctuation">(</span><span class="variable">order</span> <span class="operator">=&gt;</span> <span class="variable">order</span><span class="punctuation">.</span><span class="property">userId</span><span class="punctuation">)</span></div>
+                            <div class="code-line"><span class="punctuation">);</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="keyword">const</span> <span class="variable">usersWithOrders</span> <span class="operator">=</span> <span class="variable">users</span><span class="punctuation">.</span><span class="method">filter</span><span class="punctuation">(</span><span class="variable">user</span> <span class="operator">=&gt;</span></div>
+                            <div class="code-line">    <span class="variable">userIdsWithOrders</span><span class="punctuation">.</span><span class="method">has</span><span class="punctuation">(</span><span class="variable">user</span><span class="punctuation">.</span><span class="property">id</span><span class="punctuation">)</span></div>
+                            <div class="code-line"><span class="punctuation">);</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-actions">
+            <div class="action-btn active">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 10l5-5 5 5M12 5v14"/>
+                </svg>
+                <span class="vote-count">342</span>
+            </div>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span>28</span>
+            </button>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+                <span>Lưu</span>
+            </button>
+            <button class="action-btn" style="margin-left: auto;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Post 2 -->
+    <div class="post-card">
+        <div class="post-header">
+            <div class="post-author">
+                <div class="author-avatar">LN</div>
+                <div class="author-info">
+                    <div class="author-name">Lê Nam</div>
+                    <div class="post-time">5 giờ trước</div>
+                </div>
+            </div>
+            <h3 class="post-title">React: Quản lý State hiệu quả</h3>
+            <p class="post-description">Tránh re-render không cần thiết khi update state trong React</p>
+        </div>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <span class="code-label bad">Bad Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                            <div class="line-number">8</div>
+                            <div class="line-number">9</div>
+                            <div class="line-number">10</div>
+                            <div class="line-number">11</div>
+                            <div class="line-number">12</div>
+                            <div class="line-number">13</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="comment">// Multiple setState gây re-render nhiều lần</span></div>
+                            <div class="code-line"><span class="keyword">const</span> <span class="function">handleUpdate</span> <span class="operator">=</span> <span class="punctuation">()</span> <span class="operator">=&gt;</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="method">setLoading</span><span class="punctuation">(</span><span class="keyword">true</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    <span class="method">setError</span><span class="punctuation">(</span><span class="keyword">null</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    <span class="method">setData</span><span class="punctuation">(</span><span class="keyword">null</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    </div>
+                            <div class="code-line">    <span class="method">fetchData</span><span class="punctuation">().</span><span class="method">then</span><span class="punctuation">(</span><span class="variable">result</span> <span class="operator">=&gt;</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="method">setData</span><span class="punctuation">(</span><span class="variable">result</span><span class="punctuation">);</span></div>
+                            <div class="code-line">        <span class="method">setLoading</span><span class="punctuation">(</span><span class="keyword">false</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    <span class="punctuation">}).</span><span class="method">catch</span><span class="punctuation">(</span><span class="variable">err</span> <span class="operator">=&gt;</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="method">setError</span><span class="punctuation">(</span><span class="variable">err</span><span class="punctuation">);</span></div>
+                            <div class="code-line">        <span class="method">setLoading</span><span class="punctuation">(</span><span class="keyword">false</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    <span class="punctuation">});</span></div>
+                            <div class="code-line"><span class="punctuation">};</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-panel">
+                <span class="code-label good">Good Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                            <div class="line-number">8</div>
+                            <div class="line-number">9</div>
+                            <div class="line-number">10</div>
+                            <div class="line-number">11</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="comment">// Sử dụng useReducer để batch updates</span></div>
+                            <div class="code-line"><span class="keyword">const</span> <span class="punctuation">[</span><span class="variable">state</span><span class="punctuation">,</span> <span class="variable">dispatch</span><span class="punctuation">]</span> <span class="operator">=</span> <span class="method">useReducer</span><span class="punctuation">(</span><span class="variable">reducer</span><span class="punctuation">,</span> <span class="variable">initialState</span><span class="punctuation">);</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="keyword">const</span> <span class="function">handleUpdate</span> <span class="operator">=</span> <span class="keyword">async</span> <span class="punctuation">()</span> <span class="operator">=&gt;</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="method">dispatch</span><span class="punctuation">({</span> <span class="property">type</span><span class="punctuation">:</span> <span class="string">'FETCH_START'</span> <span class="punctuation">});</span></div>
+                            <div class="code-line">    </div>
+                            <div class="code-line">    <span class="keyword">try</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="keyword">const</span> <span class="variable">result</span> <span class="operator">=</span> <span class="keyword">await</span> <span class="method">fetchData</span><span class="punctuation">();</span></div>
+                            <div class="code-line">        <span class="method">dispatch</span><span class="punctuation">({</span> <span class="property">type</span><span class="punctuation">:</span> <span class="string">'FETCH_SUCCESS'</span><span class="punctuation">,</span> <span class="property">payload</span><span class="punctuation">:</span> <span class="variable">result</span> <span class="punctuation">});</span></div>
+                            <div class="code-line">    <span class="punctuation">}</span> <span class="keyword">catch</span> <span class="punctuation">(</span><span class="variable">error</span><span class="punctuation">)</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="method">dispatch</span><span class="punctuation">({</span> <span class="property">type</span><span class="punctuation">:</span> <span class="string">'FETCH_ERROR'</span><span class="punctuation">,</span> <span class="property">payload</span><span class="punctuation">:</span> <span class="variable">error</span> <span class="punctuation">});</span></div>
+                            <div class="code-line">    <span class="punctuation">}</span></div>
+                            <div class="code-line"><span class="punctuation">};</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-actions">
+            <div class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 10l5-5 5 5M12 5v14"/>
+                </svg>
+                <span class="vote-count">156</span>
+            </div>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span>14</span>
+            </button>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+                <span>Lưu</span>
+            </button>
+            <button class="action-btn" style="margin-left: auto;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Post 3 -->
+    <div class="post-card">
+        <div class="post-header">
+            <div class="post-author">
+                <div class="author-avatar">PT</div>
+                <div class="author-info">
+                    <div class="author-name">Phạm Thảo</div>
+                    <div class="post-time">8 giờ trước</div>
+                </div>
+            </div>
+            <h3 class="post-title">Python: Xử lý Exception đúng cách</h3>
+            <p class="post-description">Cách handle exception an toàn và rõ ràng trong Python</p>
+        </div>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <span class="code-label bad">Bad Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="comment"># Catch tất cả exception - không nên</span></div>
+                            <div class="code-line"><span class="keyword">try</span><span class="punctuation">:</span></div>
+                            <div class="code-line">    <span class="variable">user</span> <span class="operator">=</span> <span class="method">get_user</span><span class="punctuation">(</span><span class="variable">user_id</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="method">process_user</span><span class="punctuation">(</span><span class="variable">user</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="method">save_to_db</span><span class="punctuation">(</span><span class="variable">user</span><span class="punctuation">)</span></div>
+                            <div class="code-line"><span class="keyword">except</span><span class="punctuation">:</span></div>
+                            <div class="code-line">    <span class="method">print</span><span class="punctuation">(</span><span class="string">"Something went wrong"</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="keyword">return</span> <span class="keyword">None</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-panel">
+                <span class="code-label good">Good Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                            <div class="line-number">8</div>
+                            <div class="line-number">9</div>
+                            <div class="line-number">10</div>
+                            <div class="line-number">11</div>
+                            <div class="line-number">12</div>
+                            <div class="line-number">13</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="comment"># Xử lý exception cụ thể</span></div>
+                            <div class="code-line"><span class="keyword">try</span><span class="punctuation">:</span></div>
+                            <div class="code-line">    <span class="variable">user</span> <span class="operator">=</span> <span class="method">get_user</span><span class="punctuation">(</span><span class="variable">user_id</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="method">process_user</span><span class="punctuation">(</span><span class="variable">user</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="method">save_to_db</span><span class="punctuation">(</span><span class="variable">user</span><span class="punctuation">)</span></div>
+                            <div class="code-line"><span class="keyword">except</span> <span class="class-name">UserNotFound</span><span class="punctuation">:</span></div>
+                            <div class="code-line">    <span class="variable">logger</span><span class="punctuation">.</span><span class="method">warning</span><span class="punctuation">(</span><span class="keyword">f</span><span class="string">"User {user_id} not found"</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="keyword">return</span> <span class="keyword">None</span></div>
+                            <div class="code-line"><span class="keyword">except</span> <span class="class-name">DatabaseError</span> <span class="keyword">as</span> <span class="variable">e</span><span class="punctuation">:</span></div>
+                            <div class="code-line">    <span class="variable">logger</span><span class="punctuation">.</span><span class="method">error</span><span class="punctuation">(</span><span class="keyword">f</span><span class="string">"Database error: {e}"</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="keyword">raise</span></div>
+                            <div class="code-line"><span class="keyword">except</span> <span class="class-name">Exception</span> <span class="keyword">as</span> <span class="variable">e</span><span class="punctuation">:</span></div>
+                            <div class="code-line">    <span class="variable">logger</span><span class="punctuation">.</span><span class="method">error</span><span class="punctuation">(</span><span class="keyword">f</span><span class="string">"Unexpected error: {e}"</span><span class="punctuation">)</span></div>
+                            <div class="code-line">    <span class="keyword">raise</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-actions">
+            <div class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 10l5-5 5 5M12 5v14"/>
+                </svg>
+                <span class="vote-count">89</span>
+            </div>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span>7</span>
+            </button>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+                <span>Lưu</span>
+            </button>
+            <button class="action-btn" style="margin-left: auto;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Post 4 - PHP Laravel Example -->
+    <div class="post-card">
+        <div class="post-header">
+            <div class="post-author">
+                <div class="author-avatar">VD</div>
+                <div class="author-info">
+                    <div class="author-name">Vũ Duy</div>
+                    <div class="post-time">1 ngày trước</div>
+                </div>
+            </div>
+            <h3 class="post-title">Laravel Route Authentication</h3>
+            <p class="post-description">Best practices cho middleware authentication trong Laravel</p>
+        </div>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <span class="code-label bad">Bad Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                            <div class="line-number">8</div>
+                            <div class="line-number">9</div>
+                            <div class="line-number">10</div>
+                            <div class="line-number">11</div>
+                            <div class="line-number">12</div>
+                            <div class="line-number">13</div>
+                            <div class="line-number">14</div>
+                            <div class="line-number">15</div>
+                            <div class="line-number">16</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="punctuation">&lt;?</span><span class="keyword">php</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="keyword">use</span> <span class="class-name">...</span><span class="punctuation">;</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="class-name">Route</span><span class="punctuation">::</span><span class="method">get</span><span class="punctuation">(</span><span class="string">'/'</span><span class="punctuation">,</span> <span class="keyword">function</span> <span class="punctuation">()</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="keyword">return</span> <span class="class-name">Inertia</span><span class="punctuation">::</span><span class="method">render</span><span class="punctuation">(</span><span class="string">'Welcome'</span><span class="punctuation">);</span></div>
+                            <div class="code-line"><span class="punctuation">});</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="class-name">Route</span><span class="punctuation">::</span><span class="method">get</span><span class="punctuation">(</span><span class="string">'/dashboard'</span><span class="punctuation">,</span> <span class="keyword">function</span> <span class="punctuation">()</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="keyword">if</span> <span class="punctuation">(!</span><span class="method">auth</span><span class="punctuation">()-></span><span class="method">check</span><span class="punctuation">())</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="keyword">return</span> <span class="method">redirect</span><span class="punctuation">(</span><span class="string">'/login'</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    <span class="punctuation">}</span></div>
+                            <div class="code-line">    <span class="keyword">if</span> <span class="punctuation">(!</span><span class="method">auth</span><span class="punctuation">()-></span><span class="property">user</span><span class="punctuation">()-></span><span class="property">verified</span><span class="punctuation">)</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">        <span class="keyword">return</span> <span class="method">redirect</span><span class="punctuation">(</span><span class="string">'/verify-email'</span><span class="punctuation">);</span></div>
+                            <div class="code-line">    <span class="punctuation">}</span></div>
+                            <div class="code-line">    <span class="keyword">return</span> <span class="class-name">Inertia</span><span class="punctuation">::</span><span class="method">render</span><span class="punctuation">(</span><span class="string">'Dashboard'</span><span class="punctuation">);</span></div>
+                            <div class="code-line"><span class="punctuation">});</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="code-panel">
+                <span class="code-label good">Good Code</span>
+                <div class="code-content">
+                    <div class="code-block">
+                        <div class="line-numbers">
+                            <div class="line-number">1</div>
+                            <div class="line-number">2</div>
+                            <div class="line-number">3</div>
+                            <div class="line-number">4</div>
+                            <div class="line-number">5</div>
+                            <div class="line-number">6</div>
+                            <div class="line-number">7</div>
+                            <div class="line-number">8</div>
+                            <div class="line-number">9</div>
+                            <div class="line-number">10</div>
+                            <div class="line-number">11</div>
+                            <div class="line-number">12</div>
+                            <div class="line-number">13</div>
+                            <div class="line-number">14</div>
+                            <div class="line-number">15</div>
+                            <div class="line-number">16</div>
+                        </div>
+                        <div class="code-lines">
+                            <div class="code-line"><span class="punctuation">&lt;?</span><span class="keyword">php</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="keyword">use</span> <span class="class-name">...</span><span class="punctuation">;</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="class-name">Route</span><span class="punctuation">::</span><span class="method">get</span><span class="punctuation">(</span><span class="string">'/'</span><span class="punctuation">,</span> <span class="keyword">function</span> <span class="punctuation">()</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="keyword">return</span> <span class="class-name">Inertia</span><span class="punctuation">::</span><span class="method">render</span><span class="punctuation">(</span><span class="string">'Welcome'</span><span class="punctuation">);</span></div>
+                            <div class="code-line"><span class="punctuation">})-></span><span class="method">name</span><span class="punctuation">(</span><span class="string">'home'</span><span class="punctuation">);</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="class-name">Route</span><span class="punctuation">::</span><span class="method">get</span><span class="punctuation">(</span><span class="string">'/dashboard'</span><span class="punctuation">,</span> <span class="keyword">function</span> <span class="punctuation">()</span> <span class="punctuation">{</span></div>
+                            <div class="code-line">    <span class="keyword">return</span> <span class="class-name">Inertia</span><span class="punctuation">::</span><span class="method">render</span><span class="punctuation">(</span><span class="string">'Dashboard'</span><span class="punctuation">);</span></div>
+                            <div class="code-line"><span class="punctuation">})-></span><span class="method">middleware</span><span class="punctuation">([</span><span class="string">'auth'</span><span class="punctuation">,</span> <span class="string">'verified'</span><span class="punctuation">])-></span><span class="method">name</span><span class="punctuation">(</span><span class="string">'dashboard'</span><span class="punctuation">);</span></div>
+                            <div class="code-line"></div>
+                            <div class="code-line"><span class="keyword">require</span> <span class="keyword">__DIR__</span><span class="punctuation">.</span><span class="string">'/settings.php'</span><span class="punctuation">;</span></div>
+                            <div class="code-line"><span class="keyword">require</span> <span class="keyword">__DIR__</span><span class="punctuation">.</span><span class="string">'/auth.php'</span><span class="punctuation">;</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="post-actions">
+            <div class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 10l5-5 5 5M12 5v14"/>
+                </svg>
+                <span class="vote-count">234</span>
+            </div>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+                <span>42</span>
+            </button>
+            <button class="action-btn">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 3a2.828 2.828 0 114 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+                </svg>
+                <span>Lưu</span>
+            </button>
+            <button class="action-btn" style="margin-left: auto;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                    <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
