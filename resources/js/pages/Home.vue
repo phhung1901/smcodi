@@ -210,7 +210,7 @@ const handleSearch = (searchValue: string) => {
 </script>
 
 <template>
-    <Head title="CodeCraft - Learn from Better Code" />
+    <Head title="SMCodi - Learn from Better Code" />
 
     <!-- Navigation nằm ngoài layout -->
     <Navigation active-tab="home" />

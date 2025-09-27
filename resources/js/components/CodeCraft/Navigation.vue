@@ -2,6 +2,7 @@
 import { Link } from '@inertiajs/vue3';
 import { ref } from 'vue';
 import CreatePostModal from './CreatePostModal.vue';
+import SMCodiLogo from '@/components/SMCodiLogo.vue';
 
 // Props để điều khiển trạng thái active của navigation
 interface Props {
@@ -43,10 +44,11 @@ const handleSubmit = (data: any) => {
 <template>
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 w-full bg-white/72 backdrop-blur-[20px] backdrop-saturate-[180%] z-[1000] border-b border-black/8 dark:bg-black/72 dark:border-white/10">
-        <div class="max-w-[980px] mx-auto px-5 h-12 flex items-center justify-between">
+        <div class="max-w-[980px] mx-auto px-5 h-16 flex items-center justify-between">
             <!-- Logo -->
-            <Link href="/" class="text-lg font-semibold text-black dark:text-white tracking-[-0.5px] cursor-pointer">
-                CodeCraft
+            <Link href="/" class="flex items-center gap-2 cursor-pointer">
+                <SMCodiLogo variant="auto" class="h-16" />
+                <span class="text-lg font-semibold text-black dark:text-white tracking-[-0.5px]">SMCodi</span>
             </Link>
 
             <!-- Desktop Navigation Menu -->
