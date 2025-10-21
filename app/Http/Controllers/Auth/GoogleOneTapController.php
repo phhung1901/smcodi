@@ -65,10 +65,23 @@ class GoogleOneTapController extends Controller
             // Handle user creation/login
             $user = $this->handleGoogleUser($googleUser);
 
+            Log::channel('auth')->info('About to login user', [
+                'user_id' => $user->id,
+                'email' => $user->email,
+                'is_authenticated_before_login' => Auth::check(),
+            ]);
+
             // Login the user
             Auth::login($user, true); // Remember user
 
             $request->session()->regenerate();
+
+            Log::channel('auth')->info('Session regenerated', [
+                'user_id' => $user->id,
+                'session_id' => $request->session()->getId(),
+                'is_authenticated_after_login' => Auth::check(),
+                'auth_user_id' => Auth::id(),
+            ]);
 
             Log::channel('auth')->info('User logged in successfully via Google One Tap', [
                 'user_id' => $user->id,
@@ -76,13 +89,24 @@ class GoogleOneTapController extends Controller
                 'ip' => $request->ip(),
             ]);
 
+            $intendedUrl = route('dashboard', absolute: false);
+            Log::channel('auth')->info('Preparing redirect after login', [
+                'user_id' => $user->id,
+                'intended_url' => $intendedUrl,
+                'is_authenticated' => Auth::check(),
+                'session_has_auth' => $request->session()->has('login.id'),
+            ]);
+
             // Always redirect after successful login
             // Google One Tap callback should redirect, not return JSON
-            return redirect()->intended(route('dashboard', absolute: false));
+            return redirect()->intended($intendedUrl);
 
         } catch (\Exception $e) {
             Log::channel('auth')->error('Google One Tap authentication failed', [
                 'error' => $e->getMessage(),
+                'error_code' => $e->getCode(),
+                'error_file' => $e->getFile(),
+                'error_line' => $e->getLine(),
                 'trace' => $e->getTraceAsString(),
                 'ip' => $request->ip(),
                 'user_agent' => $request->userAgent(),
