@@ -40,7 +40,7 @@ class GoogleOneTapController extends Controller
                     'user_agent' => $request->userAgent(),
                 ]);
 
-                return response()->json(['error' => 'Invalid token'], 400);
+                return redirect()->route('login')->withErrors(['email' => 'Invalid token. Please try again.']);
             }
 
             Log::channel('auth')->info('Google token retrieved successfully');
@@ -53,7 +53,7 @@ class GoogleOneTapController extends Controller
                     'token_length' => strlen($token),
                 ]);
 
-                return response()->json(['error' => 'Failed to authenticate with Google'], 400);
+                return redirect()->route('login')->withErrors(['email' => 'Failed to authenticate with Google. Please try again.']);
             }
 
             Log::channel('auth')->info('Google user data retrieved', [
@@ -76,15 +76,9 @@ class GoogleOneTapController extends Controller
                 'ip' => $request->ip(),
             ]);
 
-            // Return success response for AJAX or redirect for regular request
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'success' => true,
-                    'redirect_url' => $this->getIntendedUrl()
-                ]);
-            }
-
-            return redirect()->intended(route('home', absolute: false));
+            // Always redirect after successful login
+            // Google One Tap callback should redirect, not return JSON
+            return redirect()->intended(route('dashboard', absolute: false));
 
         } catch (\Exception $e) {
             Log::channel('auth')->error('Google One Tap authentication failed', [
@@ -93,10 +87,6 @@ class GoogleOneTapController extends Controller
                 'ip' => $request->ip(),
                 'user_agent' => $request->userAgent(),
             ]);
-
-            if ($request->expectsJson()) {
-                return response()->json(['error' => 'Authentication failed'], 500);
-            }
 
             return redirect()->route('login')->withErrors(['email' => 'Authentication failed. Please try again.']);
         }
