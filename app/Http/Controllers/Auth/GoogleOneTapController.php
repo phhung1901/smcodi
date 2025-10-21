@@ -90,16 +90,24 @@ class GoogleOneTapController extends Controller
             ]);
 
             $intendedUrl = route('dashboard', absolute: false);
+
+            // Save session explicitly before redirect
+            $request->session()->save();
+
             Log::channel('auth')->info('Preparing redirect after login', [
                 'user_id' => $user->id,
                 'intended_url' => $intendedUrl,
                 'is_authenticated' => Auth::check(),
                 'session_has_auth' => $request->session()->has('login.id'),
+                'session_saved' => true,
             ]);
 
-            // Always redirect after successful login
-            // Google One Tap callback should redirect, not return JSON
-            return redirect()->intended($intendedUrl);
+            // Return HTML with meta refresh to ensure session cookie is set
+            // This is necessary because Google One Tap callback is cross-origin
+            return response()->view('auth.redirect', [
+                'url' => $intendedUrl,
+                'user' => $user,
+            ])->header('Cache-Control', 'no-cache, no-store, must-revalidate');
 
         } catch (\Exception $e) {
             Log::channel('auth')->error('Google One Tap authentication failed', [

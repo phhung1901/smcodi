@@ -8,6 +8,13 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('dashboard', function () {
+    \Illuminate\Support\Facades\Log::channel('auth')->info('Dashboard accessed', [
+        'is_authenticated' => auth()->check(),
+        'user_id' => auth()->id(),
+        'session_id' => session()->getId(),
+        'has_session_data' => session()->has('login.id'),
+    ]);
+
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
