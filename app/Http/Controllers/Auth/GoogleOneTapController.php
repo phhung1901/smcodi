@@ -74,6 +74,9 @@ class GoogleOneTapController extends Controller
                 'user_id' => $user->id,
                 'email' => $user->email,
                 'ip' => $request->ip(),
+                'session_id' => $request->session()->getId(),
+                'session_data' => $request->session()->all(),
+                'auth_check_after_login' => Auth::check(),
             ]);
 
             // Return success response for AJAX or redirect for regular request
