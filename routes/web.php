@@ -15,13 +15,13 @@ Route::get('/', function () {
         'user_agent' => request()->userAgent(),
     ]);
 
-    dd([
-        'session_id' => session()->getId(),
-        'session_all' => session()->all(),
-        'auth_check' => auth()->check(),
-        'auth_user' => auth()->user(),
-        'cookies' => request()->cookies->all(),
-    ]);
+//    dd([
+//        'session_id' => session()->getId(),
+//        'session_all' => session()->all(),
+//        'auth_check' => auth()->check(),
+//        'auth_user' => auth()->user(),
+//        'cookies' => request()->cookies->all(),
+//    ]);
 
     return Inertia::render('Home');
 })->name('home');
