@@ -35,11 +35,13 @@ Route::middleware('guest')->group(function () {
     Route::post('reset-password', [NewPasswordController::class, 'store'])
         ->name('password.store');
 
-    // Google One Tap routes
-    Route::post('auth/google/one-tap/callback', [GoogleOneTapController::class, 'callback'])
-        ->middleware(['web', 'throttle:10,1'])
-        ->name('auth.google.one-tap.callback');
 });
+
+// Google One Tap callback route - must be outside guest middleware
+// because it logs in the user and then redirects
+Route::post('auth/google/one-tap/callback', [GoogleOneTapController::class, 'callback'])
+    ->middleware(['web', 'guest', 'throttle:10,1'])
+    ->name('auth.google.one-tap.callback');
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
